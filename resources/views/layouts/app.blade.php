@@ -6,13 +6,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel 9 User Roles and Permissions Tutorial Example') }}</title>
 
     @vite(['resources/js/app.js'])
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="css\app.css">
 </head>
 <body>
     <div id="app">

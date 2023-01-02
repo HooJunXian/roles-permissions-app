@@ -7,14 +7,16 @@
             </div>
             <div class="pull-right">
                 @can('product-create')
-                <a class="btn btn-success" href="{{ route('products.create') }}"> Create New Product</a>
+                @if(Auth::id()=='1')
+                <a class="btn btn-success" href="{{ route('products.create') }}"> Create New Project</a>
+                @endif
                 @endcan
             </div>
         </div>
     </div>
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
-            <p>{{ $message }}</p>
+            <p>Project updated successfully</p>
         </div>
     @endif
     <table class="table table-bordered">
@@ -31,7 +33,7 @@
             <th>Project Progress</th>
             <th>Project Status</th>
             <th>Duration In Month</th>
-            <th width="230px">Action</th>
+            <th width="200px">Action</th>
         </tr>
         @foreach ($products as $product)
         <tr>
@@ -58,15 +60,14 @@
             @endphp</td>
             <td>
                 <form action="{{ route('products.destroy',$product->id) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('products.show',$product->id) }}">Show</a>
-                    @can('product-edit')
+                    @can('project-edit')
                     @if(Auth::id()=='1' || Auth::user()->name==$product->supname)
                     <a class="btn btn-primary" href="{{ route('products.edit',$product->id) }}">Edit</a>
                     @endif
                     @endcan
                     @csrf
                     @method('DELETE')
-                    @can('product-delete')
+                    @can('project-delete')
                     @if(Auth::id()=='1')
                     <button type="submit" class="btn btn-danger">Delete</button>
                     @endif

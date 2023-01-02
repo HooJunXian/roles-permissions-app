@@ -19,10 +19,10 @@ class ProductController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
-         $this->middleware('permission:product-create', ['only' => ['create','store']]);
-         $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:project-list|project-create|project-edit|project-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:project-create', ['only' => ['create','store']]);
+         $this->middleware('permission:project-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:project-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -57,18 +57,17 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'studname' => 'required',
-            'projtitle' => 'required',
+            'studname' => 'required|unique:products,studname',
+            'projtitle' => 'required|unique:products,projtitle',
             'projtype' => 'required',
             'supname' => 'required',
             'ex1name' => 'required',
             'ex2name' => 'required',
         ]);
-    
+        
         Product::create($request->all());
-    
-        return redirect()->route('products.index')
-                        ->with('success','Product created successfully.');
+            return redirect()->route('products.index')
+                ->with('success','Product created successfully.');
     }
     
     /**
@@ -104,14 +103,9 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
          request()->validate([
-            
+            'startdate' => 'before_or_equal:enddate',
+            'enddate' => 'after_or_equal:startdate',
         ]);
-        if(!empty($request->startdate)){
-            $sDate = Carbon::parse($request->startdate);
-            $eDate = Carbon::parse($request->enddate);
-            $month = $sDate->diffInMonths($eDate);
-            $request->duration = $month;
-        }
         $product->update($request->all());
         return redirect()->route('products.index')
                         ->with('success','Product updated successfully');

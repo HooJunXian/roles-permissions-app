@@ -6,7 +6,9 @@
             <h2>Users Management</h2>
         </div>
         <div class="pull-right">
+            @if(Auth::id()=='1')
             <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
+            @endif
         </div>
     </div>
 </div>
@@ -21,7 +23,7 @@
         <th>Name</th>
         <th>Email</th>
         <th>Roles</th>
-        <th width="280px">Action</th>
+        <th width="200px">Action</th>
     </tr>
 @foreach ($data as $key => $user)
     <tr>
@@ -36,7 +38,6 @@
             @endif
         </td>
         <td>
-            <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
             @if(Auth::id()==$user->id || Auth::id()=='1')
             <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
             @endif
